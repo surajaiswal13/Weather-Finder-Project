@@ -1,13 +1,22 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 // For External API'switch
 
 const https = require("https");
 
 const app = express();
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/index.html")
+});
 
-  const query = "Paris";
+app.post("/", (req, res) => {
+  console.log("Post Recieved");
+  console.log(req.body.cityName);
+
+
+  const query = req.body.cityName;
   const apiKey = "9e06423e1c5b431794bfaaa5668ad869";
   const units = "metric";
 
@@ -41,10 +50,10 @@ app.get("/", function(req, res) {
   })
 
   // res.send("Server is up and running");
-});
 
+});
 
 
 app.listen(3000, function() {
   console.log("Server is running on port 3000 !")
-})
+});
